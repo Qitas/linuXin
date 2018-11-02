@@ -1,0 +1,12 @@
+# 官方源
+#deb https://archive.raspbian.org/raspbian/ stretch main contrib non-free rpi
+# 阿里云
+#deb http://mirrors.aliyun.com/raspbian/raspbian/ stretch main contrib non-free rpi 
+# 中科大
+#deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi 
+
+# 清华
+deb https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main contrib non-free rpi
+
+#ffmpeg安装源
+deb http://www.deb-multimedia.org jessie main non-free

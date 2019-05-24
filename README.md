@@ -1,6 +1,6 @@
 ﻿# [LinuxConFile](https://github.com/Qitas/LinuxConFile)
 
-Pi分支用于存放树莓派的系统配置文件
+centos分支用于存放centos系统初始化配置
 
 [![sites](qitas/qitas.png)](http://www.qitas.cn)
 ## 锻造最美之器

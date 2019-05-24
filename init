@@ -27,7 +27,7 @@ done
 echo $PASSWD | sudo ls &> /dev/null 2>&1
 
 
-function src_config()
+function yum_config()
 {
 	sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
 	sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
@@ -37,8 +37,14 @@ function src_config()
 	sudo yum install epel-release git -y
 	sudo yum install gcc kernel-devel -y
 	sudo yum install openssl openssl-devel -y  
-	sudo mkdir /usr/QITAS
-	mkdir $WorkPath/src
+} 
+
+function chorme_config()
+{
+	if [ ! -f /etc/yum.repo.d/google-chrome.repo ]; then
+		sudo cp ./src/google-chrome.repo /etc/yum.repo.d/
+    fi
+	sudo yum -y install google-chrome-stable --nogpgcheck
 } 
 
 
@@ -54,7 +60,8 @@ OPTION=$(whiptail --title "QITAS Device init System" \
 if [ $OPTION = '0' ]; then
 	clear
 	echo "start auto all\n${Line}"
-	src_config #> ins.log 
+	yum_config #> ins.log 
+	chorme_config
 	exit 0
 elif [ $OPTION = '1' ]; then
 	clear

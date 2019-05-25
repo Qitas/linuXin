@@ -39,12 +39,15 @@ function yum_config()
 	sudo yum install openssl openssl-devel -y  
 } 
 
-function chorme_config()
+function repo_file()
 {
 	if [ ! -f /etc/yum.repos.d/google-chrome.repo ]; then
 		sudo cp ./src/google-chrome.repo /etc/yum.repos.d/
-  fi
-	sudo yum -y install google-chrome-stable --nogpgcheck
+  	fi
+	if [ ! -f /etc/yum.repos.d/gitlab-ce.repo ]; then
+		sudo cp ./src/gitlab-ce.repo /etc/yum.repos.d/
+  	fi
+	#sudo yum -y install google-chrome-stable --nogpgcheck
 } 
 
 OPTION=$(whiptail --title "QITAS Device init System" \
@@ -59,8 +62,9 @@ OPTION=$(whiptail --title "QITAS Device init System" \
 if [ $OPTION = '0' ]; then
 	clear
 	echo "start auto all\n${Line}"
+	repo_file
 	yum_config #> ins.log 
-	chorme_config
+	
 	exit 0
 elif [ $OPTION = '1' ]; then
 	clear
@@ -69,6 +73,7 @@ elif [ $OPTION = '1' ]; then
 elif [ $OPTION = '2' ]; then
 	clear
 	echo "start system init\n${Line}"
+	repo_file
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear

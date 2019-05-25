@@ -64,15 +64,22 @@ function gitlab_config()
 		echo -e "start gitlab install \n${Line}"
 
 	else
-		sudo yum install -y curl openssh-server openssh-clients postfix cronie
-		sudo yum -y install gitlab-ce
-		sudo gitlab-ctl reconfigure 
+		sudo yum install -y curl policycoreutils-python openssh-server
+		sudo systemctl enable sshd
+		sudo systemctl start sshd
+		sudo firewall-cmd --permanent --add-service=http
+		sudo systemctl reload firewalld
+		sudo yum install postfix
+		sudo systemctl enable postfix
+		sudo systemctl start postfix
+		curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+		sudo EXTERNAL_URL="https://gitlab.OS-Q.com" yum install -y gitlab-ce
   	fi
 }
 
 #get_git
 #config_git
-get_gitlab
+#get_gitlab
 gitlab_config
 
 

@@ -41,8 +41,8 @@ function yum_config()
 
 function chorme_config()
 {
-	if [ ! -f /etc/yum.repo.d/google-chrome.repo ]; then
-		sudo cp ./src/google-chrome.repo /etc/yum.repo.d/google-chrome.repo
+	if [ ! -f /etc/yum.repos.d/google-chrome.repo ]; then
+		sudo cp ./src/google-chrome.repo /etc/yum.repos.d/
   fi
 	sudo yum -y install google-chrome-stable --nogpgcheck
 } 

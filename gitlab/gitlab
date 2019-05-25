@@ -1,0 +1,51 @@
+#!/bin/bash
+
+export shellPath=`pwd`
+export WorkPath=$shellPath/..
+
+function get_git()
+{
+    if [ ! -f $shellPath/git.tar.gz ]; then
+        cd $shellPath
+		wget -O git.tar.gz https://github.com/git/git/archive/v2.22.0-rc1.tar.gz
+    fi
+	if [ ! -d  $shellPath/git ]; then
+        cd $shellPath/
+		sudo mkdir git
+		sudo tar -xzvf git.tar.gz  -C git --strip-components 1 
+    fi
+	echo "finish download git src \n${Line}"
+}
+
+function get_gitlab()
+{
+    if [ ! -f $shellPath/gitlab.tar.gz ]; then
+        cd $shellPath
+		wget -O gitlab.tar.gz  https://github.com/gitlabhq/gitlabhq/archive/v11.11.0.tar.gz
+    fi
+	if [ ! -d  $shellPath/gitlab ]; then
+        cd $shellPath/
+		sudo mkdir gitlab
+		sudo tar -xzvf gitlab.tar.gz  -C gitlab --strip-components 1 
+    fi
+	echo "finish download gitlab src \n${Line}"
+}
+
+function gitlab_config()
+{
+  	sudo yum -y install -y wget curl gcc checkinstall libxml2-dev libxslt-dev sqlite3 libsqlite3-dev libcurl4-openssl-dev libreadline6-dev libc6-dev libssl-dev libmysql++-dev make build-essential zlib1g-dev libicu-dev redis-server openssh-server git-core python-dev python-pip libyaml-dev postfix
+	sudo yum -y install libicu-devel mysql-devel pcre-devel
+	if [-d  $shellPath/gitlab ]; then
+		echo -e "start gitlab install \n${Line}"
+
+  	fi
+}
+
+get_git
+get_gitlab
+gitlab_config
+
+
+echo "finish gitlab config\n${Line}"
+
+exit 0

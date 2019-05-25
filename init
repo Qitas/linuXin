@@ -47,7 +47,6 @@ function chorme_config()
 	sudo yum -y install google-chrome-stable --nogpgcheck
 } 
 
-
 OPTION=$(whiptail --title "QITAS Device init System" \
 	--menu "$MENUSTR" 20 60 12 --cancel-button Finish --ok-button Select \
 	"0"   "auto init all" \
@@ -74,6 +73,10 @@ elif [ $OPTION = '2' ]; then
 elif [ $OPTION = "3" ]; then
 	clear
 	echo "start source init\n${Line}"
+	cd $WorkPath/gitlab
+	sudo chmod +x gitlab
+	sudo ./gitlab  #> gitlab.log
+	echo "finish centos gitlab env init\n${Line}"
 	exit 0
 else
 	whiptail --title "QITAS Device System" \

@@ -5,26 +5,51 @@ export WorkPath=$shellPath/..
 
 function get_git()
 {
-    if [ ! -f $shellPath/git.tar.gz ]; then
-        cd $shellPath
+	if [ ! -d  $shellPath/download ]; then
+        cd $shellPath/
+		sudo mkdir download
+    fi
+    if [ ! -f $shellPath/download/git.tar.gz ]; then
+        cd $shellPath/download
 		wget -O git.tar.gz https://github.com/git/git/archive/v2.22.0-rc1.tar.gz
     fi
-	if [ ! -d  $shellPath/git ]; then
-        cd $shellPath/
+	if [ ! -d  $shellPath/download/git ]; then
+        cd $shellPath/download
 		sudo mkdir git
 		sudo tar -xzvf git.tar.gz  -C git --strip-components 1 
     fi
 	echo "finish download git src \n${Line}"
 }
 
+function config_git()
+{
+	sudo yum -y install libicu-devel patch gcc-c++ readline-devel zlib-devel libffi-devel openssl-devel 
+	sudo yum -y install make autoconf automake libtool bison libxml2-devel libxslt-devel libyaml-devel 
+	sudo yum -y install cpio expat-devel gettext-devel curl-devel perl-ExtUtils-CBuilder cmake pcre-devel
+	if [ ! -d  $shellPath/download/git ]; then
+        cd $shellPath/download/git
+		make configure
+		./configure --prefix=/home/git 
+		make && make install
+		sudo echo 'export PATH=/home/git/bin:$PATH' >> /etc/profile
+		sudo export PATH="/home/git/bin:$PATH" 
+		source /etc/profile
+    fi
+	echo "finish download git src \n${Line}"
+}
+
 function get_gitlab()
 {
-    if [ ! -f $shellPath/gitlab.tar.gz ]; then
-        cd $shellPath
+	if [ ! -d  $shellPath/download ]; then
+        cd $shellPath/
+		sudo mkdir download
+    fi
+    if [ ! -f $shellPath/download/gitlab.tar.gz ]; then
+        cd $shellPath/download
 		wget -O gitlab.tar.gz  https://github.com/gitlabhq/gitlabhq/archive/v11.11.0.tar.gz
     fi
-	if [ ! -d  $shellPath/gitlab ]; then
-        cd $shellPath/
+	if [ ! -d  $shellPath/download/gitlab ]; then
+        cd $shellPath/download
 		sudo mkdir gitlab
 		sudo tar -xzvf gitlab.tar.gz  -C gitlab --strip-components 1 
     fi
@@ -35,13 +60,18 @@ function gitlab_config()
 {
   	sudo yum -y install -y wget curl gcc checkinstall libxml2-dev libxslt-dev sqlite3 libsqlite3-dev libcurl4-openssl-dev libreadline6-dev libc6-dev libssl-dev libmysql++-dev make build-essential zlib1g-dev libicu-dev redis-server openssh-server git-core python-dev python-pip libyaml-dev postfix
 	sudo yum -y install libicu-devel mysql-devel pcre-devel
-	if [-d  $shellPath/gitlab ]; then
+	if [-d  $shellPath/download/gitlab ]; then
 		echo -e "start gitlab install \n${Line}"
 
+	else
+		sudo yum install -y curl openssh-server openssh-clients postfix cronie
+		sudo yum -y install gitlab-ce
+		sudo gitlab-ctl reconfigure 
   	fi
 }
 
-get_git
+#get_git
+#config_git
 get_gitlab
 gitlab_config
 

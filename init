@@ -82,6 +82,10 @@ if [ $OPTION = '0' ]; then
 elif [ $OPTION = '1' ]; then
 	clear
 	echo "driver init\n${Line}"
+	cd $WorkPath/mark
+	sudo chmod +x mark
+	sudo ./mark  #> mark.log
+	echo "finish centos mark driver init\n${Line}"
 	exit 0	
 elif [ $OPTION = '2' ]; then
 	clear

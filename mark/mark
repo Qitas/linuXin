@@ -1,0 +1,12 @@
+#!/bin/bash
+
+_workdir=`pwd`
+
+make
+cp $_workdir/vendor.ko /usr/local/
+cp $_workdir/QITAS /etc/init.d/
+chmod +x /etc/init.d/QITAS
+systemctl enable QITAS
+systemctl start QITAS
+echo "finish vendor mark config\n${Line}"
+exit 0

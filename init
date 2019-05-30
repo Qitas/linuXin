@@ -4,11 +4,11 @@ export WorkPath=`pwd`
 
 ## Root Password
 for ((i = 0; i < 5; i++)); do
-	PASSWD=$(whiptail --title "QITAS Device System" \
-		--passwordbox "Enter root password. Don't use root or sudo run it" \
+	PASSWD=$(whiptail --title "QITAS CentOS Init System" \
+		--passwordbox "Enter root password. [Don't use root or sudo] " \
 		10 60 3>&1 1>&2 2>&3)
 	if [ $i = "4" ]; then
-		whiptail --title "Note REX" --msgbox "Error, Invalid password" 10 40 0	
+		whiptail --title "Note QITAS" --msgbox "Invalid root Password ! " 10 40 0	
 		exit 0
 	fi
 
@@ -19,7 +19,7 @@ EOF
 	then
 		i=10
 	else
-		whiptail --title "QITAS Device System" --msgbox "Invalid password, Pls input corrent password" \
+		whiptail --title "QITAS CentOS Init System" --msgbox "Invalid root Password, try again ! " \
 		10 40 0	--cancel-button Exit --ok-button Retry
 	fi
 done
@@ -27,43 +27,57 @@ done
 echo $PASSWD | sudo ls &> /dev/null 2>&1
 
 
-function yum_config()
+function repo_config()
 {
 	sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
 	sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 	sudo yum clean all
 	sudo yum makecache
 	sudo yum -y update
+} 
+
+function connect_config()
+{
 	sudo yum install epel-release git -y
 	sudo yum install gcc kernel-devel -y
 	sudo yum install openssl openssl-devel -y  
 } 
 
-function repo_file()
+
+function src_replace()
 {
+	:  '
+	for file in `ls *.repo`
+	do
+		mv $file $(echo $file | sed 's/AAA//g')
+	done
+	'
+
 	if [ ! -f /etc/yum.repos.d/google-chrome.repo ]; then
 		sudo cp ./src/google-chrome.repo /etc/yum.repos.d/
   	fi
 	if [ ! -f /etc/yum.repos.d/gitlab-ce.repo ]; then
 		sudo cp ./src/gitlab-ce.repo /etc/yum.repos.d/
-  	fi
-	#sudo yum -y install google-chrome-stable --nogpgcheck
+  	fi	
 } 
 
-OPTION=$(whiptail --title "QITAS Device init System" \
+
+
+OPTION=$(whiptail --title "QITAS CentOS Init System" \
 	--menu "$MENUSTR" 20 60 12 --cancel-button Finish --ok-button Select \
-	"0"   "auto init all" \
+	"0"   "system init" \
 	"1"   "driver init" \
-	"2"   "system init" \
-	"3"   "source init" \
+	"2"   "config init" \
+	"3"   "gilab-ce" \
+	"4"   "chrome" \
 	3>&1 1>&2 2>&3)
 	
 
 if [ $OPTION = '0' ]; then
 	clear
 	echo "start auto all\n${Line}"
-	repo_file
-	yum_config #> ins.log 
+	repo_config
+	repo_config #> ins.log 
 	
 	exit 0
 elif [ $OPTION = '1' ]; then
@@ -83,9 +97,14 @@ elif [ $OPTION = "3" ]; then
 	sudo ./gitlab  #> gitlab.log
 	echo "finish centos gitlab env init\n${Line}"
 	exit 0
+elif [ $OPTION = '4' ]; then
+	clear
+	echo "start 4 init\n${Line}"
+	sudo yum -y install google-chrome-stable --nogpgcheck
+	exit 0	
 else
-	whiptail --title "QITAS Device System" \
-		--msgbox "Please select correct option" 10 50 0
+	whiptail --title "QITAS CentOS Init System" \
+		--msgbox "Please select correct option [0-4]" 10 50 0
 	exit 0
 fi
 

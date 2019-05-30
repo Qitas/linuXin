@@ -75,22 +75,21 @@ OPTION=$(whiptail --title "QITAS CentOS Init System" \
 
 if [ $OPTION = '0' ]; then
 	clear
-	echo "start auto all\n${Line}"
-	repo_config
+	echo "system init\n${Line}"
 	repo_config #> ins.log 
 	
 	exit 0
 elif [ $OPTION = '1' ]; then
 	clear
-	echo "start driver init\n${Line}"
+	echo "driver init\n${Line}"
 	exit 0	
 elif [ $OPTION = '2' ]; then
 	clear
-	echo "start system init\n${Line}"
+	echo "config init\n${Line}"
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear
-	echo "start source init\n${Line}"
+	echo "gilab-ce\n${Line}"
 	cd $WorkPath/gitlab
 	sudo chmod +x gitlab
 	sudo ./gitlab  #> gitlab.log
@@ -98,7 +97,7 @@ elif [ $OPTION = "3" ]; then
 	exit 0
 elif [ $OPTION = '4' ]; then
 	clear
-	echo "start 4 init\n${Line}"
+	echo "chrome\n${Line}"
 	src_replace
 	sudo yum -y install google-chrome-stable --nogpgcheck
 	exit 0	

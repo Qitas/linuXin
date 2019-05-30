@@ -1,10 +1,10 @@
 #!/bin/sh
 #chkconfig: 2345 80 90
-    #description:rex
+    #description:qitas
 
 if [ -f /usr/local/vendor.ko ]; then
   sudo insmod /usr/local/vendor.ko
 fi
 
-sudo echo "finish loading rex vendor info"
+sudo echo "finish loading qitas mark config"
 exit 0

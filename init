@@ -87,7 +87,6 @@ elif [ $OPTION = '1' ]; then
 elif [ $OPTION = '2' ]; then
 	clear
 	echo "start system init\n${Line}"
-	repo_file
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear
@@ -100,6 +99,7 @@ elif [ $OPTION = "3" ]; then
 elif [ $OPTION = '4' ]; then
 	clear
 	echo "start 4 init\n${Line}"
+	src_replace
 	sudo yum -y install google-chrome-stable --nogpgcheck
 	exit 0	
 else

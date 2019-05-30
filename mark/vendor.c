@@ -30,7 +30,7 @@ static char *mark = "this centos machine marked by qitas";
 
 
 // seq_operations -> show
-static int jif_show(struct seq_file *m, void *v)
+static int qitas_show(struct seq_file *m, void *v)
 {
 	seq_printf(m, "%s\n", mark);
 	return 0; //!! must be 0, or will show nothing T.T
@@ -59,11 +59,11 @@ static ssize_t qitas_write(struct file *file, const char __user *buffer, size_t 
 // seq_operations -> open
 static int qitas_open(struct inode *inode, struct file *file)
 {
-	return single_open(file, jif_show, NULL);
+	return single_open(file, qitas_show, NULL);
 }
  
 
-static const struct file_operations jif_fops = 
+static const struct file_operations qitas_fops = 
 {
 	.owner		= THIS_MODULE,
 	.open		= qitas_open,
@@ -75,11 +75,11 @@ static const struct file_operations jif_fops =
 
 // module init
 
-static int __init jif_init(void)
+static int __init qitas_init(void)
 {
-	struct proc_dir_entry* jif_file;
-	jif_file = proc_create("qitas", 0, NULL, &jif_fops);
-	if (NULL == jif_file)
+	struct proc_dir_entry* qitas_file;
+	qitas_file = proc_create("qitas", 0, NULL, &qitas_fops);
+	if (NULL == qitas_file)
 	{
 	    return -ENOMEM;
 	}
@@ -87,14 +87,14 @@ static int __init jif_init(void)
 }
 
 // module exit
-static void __exit jif_exit(void)
+static void __exit qitas_exit(void)
 {
 	remove_proc_entry("qitas", NULL);
 	kfree(mark);
 }
 
-module_init(jif_init);
-module_exit(jif_exit);
+module_init(qitas_init);
+module_exit(qitas_exit);
 
 MODULE_AUTHOR("aran");
 MODULE_LICENSE("GPL");

@@ -3,8 +3,7 @@
     #description:qitas
 
 if [ -f /usr/local/vendor.ko ]; then
-  sudo insmod /usr/local/vendor.ko
+  sudo insmod /usr/local/qitas.ko
 fi
 
-sudo echo "finish loading qitas mark config"
 exit 0

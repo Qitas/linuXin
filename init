@@ -77,6 +77,7 @@ if [ $OPTION = '0' ]; then
 	clear
 	echo -e "system init\n${Line}"
 	repo_config #> ins.log 
+	src_replace
 	
 	exit 0
 elif [ $OPTION = '1' ]; then
@@ -89,14 +90,14 @@ elif [ $OPTION = '1' ]; then
 	exit 0	
 elif [ $OPTION = '2' ]; then
 	clear
-	echo "config init\n${Line}"
+	echo -e "config init\n${Line}"
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear
 	cd $WorkPath/gitlab
 	sudo chmod +x gitlab
 	sudo ./gitlab  #> gitlab.log
-	echo "finish centos gitlab env init\n${Line}"
+	echo -e "finish centos gitlab env init\n${Line}"
 	exit 0
 elif [ $OPTION = '4' ]; then
 	clear

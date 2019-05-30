@@ -58,10 +58,8 @@ function get_gitlab()
 
 function gitlab_config()
 {
-  sudo yum -y install wget curl gcc checkinstall libxml2-dev libxslt-dev 
-	sudo yum -y install sqlite3 libsqlite3-dev libcurl4-openssl-dev libreadline6-dev libc6-dev libssl-dev 
-	sudo yum -y install libmysql++-dev make build-essential zlib1g-dev libicu-dev redis-server 
-	sudo yum -y install openssh-server git-core python-dev python-pip libyaml-dev postfix
+  sudo yum -y install wget curl gcc make 
+	sudo yum -y install openssh-server python-pip postfix
 	sudo yum -y install libicu-devel mysql-devel pcre-devel
 	if [-d  $shellPath/download/gitlab ]; then
 		echo -e "start gitlab install \n${Line}"
@@ -84,8 +82,5 @@ function gitlab_config()
 #config_git
 #get_gitlab
 gitlab_config
-
-
-echo "finish gitlab config\n${Line}"
 
 exit 0

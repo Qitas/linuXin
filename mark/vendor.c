@@ -12,7 +12,7 @@
 // #include <stdlib.h>
 // #include <string.h>
 
-static char *str = "REDGEX9003US2019Y5M15D001";
+static char *mark = "this centos machine marked by qitas";
 
 //SNStr = (char *)malloc((sizeof(redgexSN)+1) * sizeof(char)); 
 /*打开文件*/ 
@@ -32,14 +32,14 @@ static char *str = "REDGEX9003US2019Y5M15D001";
 // seq_operations -> show
 static int jif_show(struct seq_file *m, void *v)
 {
-	seq_printf(m, "%s\n", str);
+	seq_printf(m, "%s\n", mark);
 	return 0; //!! must be 0, or will show nothing T.T
 }
 
  
 
 // file_operations -> write
-static ssize_t jif_write(struct file *file, const char __user *buffer, size_t count, loff_t *f_pos)
+static ssize_t qitas_write(struct file *file, const char __user *buffer, size_t count, loff_t *f_pos)
 {
 	//分配临时缓冲区
 	char *tmp = kzalloc((count+1), GFP_KERNEL);
@@ -51,13 +51,13 @@ static ssize_t jif_write(struct file *file, const char __user *buffer, size_t co
 		return -EFAULT;
 	}
 	//将str的旧空间释放，然后将tmp赋值给str
-	kfree(str);
-	str = tmp;
+	kfree(mark);
+	mark = tmp;
 	return count;
 }
 
 // seq_operations -> open
-static int jif_open(struct inode *inode, struct file *file)
+static int qitas_open(struct inode *inode, struct file *file)
 {
 	return single_open(file, jif_show, NULL);
 }
@@ -66,9 +66,9 @@ static int jif_open(struct inode *inode, struct file *file)
 static const struct file_operations jif_fops = 
 {
 	.owner		= THIS_MODULE,
-	.open		= jif_open,
+	.open		= qitas_open,
 	.read		= seq_read,
-	.write 		= jif_write,
+	.write 		= qitas_write,
 	.llseek		= seq_lseek,
 	.release	= single_release,
 };
@@ -78,7 +78,7 @@ static const struct file_operations jif_fops =
 static int __init jif_init(void)
 {
 	struct proc_dir_entry* jif_file;
-	jif_file = proc_create("rex", 0, NULL, &jif_fops);
+	jif_file = proc_create("qitas", 0, NULL, &jif_fops);
 	if (NULL == jif_file)
 	{
 	    return -ENOMEM;
@@ -89,8 +89,8 @@ static int __init jif_init(void)
 // module exit
 static void __exit jif_exit(void)
 {
-	remove_proc_entry("rex", NULL);
-	kfree(str);
+	remove_proc_entry("qitas", NULL);
+	kfree(mark);
 }
 
 module_init(jif_init);

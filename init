@@ -75,17 +75,17 @@ OPTION=$(whiptail --title "QITAS CentOS Init System" \
 
 if [ $OPTION = '0' ]; then
 	clear
-	echo "system init\n${Line}"
+	echo -e "system init\n${Line}"
 	repo_config #> ins.log 
 	
 	exit 0
 elif [ $OPTION = '1' ]; then
 	clear
-	echo "driver init\n${Line}"
+	echo -e "driver init\n${Line}"
 	cd $WorkPath/mark
 	sudo chmod +x mark
 	sudo ./mark  #> mark.log
-	echo "finish centos mark driver init\n${Line}"
+	echo -e "finish centos mark driver init\n${Line}"
 	exit 0	
 elif [ $OPTION = '2' ]; then
 	clear
@@ -93,7 +93,6 @@ elif [ $OPTION = '2' ]; then
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear
-	echo "gilab-ce\n${Line}"
 	cd $WorkPath/gitlab
 	sudo chmod +x gitlab
 	sudo ./gitlab  #> gitlab.log
@@ -101,7 +100,6 @@ elif [ $OPTION = "3" ]; then
 	exit 0
 elif [ $OPTION = '4' ]; then
 	clear
-	echo "chrome\n${Line}"
 	src_replace
 	sudo yum -y install google-chrome-stable --nogpgcheck
 	exit 0	

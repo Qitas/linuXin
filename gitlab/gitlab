@@ -21,6 +21,11 @@ function get_git()
 	echo "finish download git src \n${Line}"
 }
 
+function git_config()
+{
+	sudo yum -y install xmlto asciidoc zlib-devel autoconf
+}
+
 function config_git()
 {
 	sudo yum -y install libicu-devel patch gcc-c++ readline-devel zlib-devel libffi-devel openssl-devel 

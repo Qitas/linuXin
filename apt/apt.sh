@@ -1,5 +1,5 @@
 #!/bin/bash
-shellPath=`pwd`
+export shellPath=`pwd`
 
 if [ -f /etc/apt/sources.list ]; then
     sudo mv /etc/apt/sources.list  /etc/apt/sources.list.bak

@@ -42,8 +42,11 @@ OPTION=$(whiptail --title "ubuntu System" \
 if [ $OPTION = '0' ]; then
 	clear
 	echo -e "source init\n${Line}"
-	chmod +x ./apt/apt.sh
-	sudo ./apt/apt.sh 
+	if [ -d  $WorkPath/apt ]; then
+        cd $WorkPath/apt
+		chmod +x ./apt.sh
+		sudo ./apt.sh 
+    fi
 	exit 0
 elif [ $OPTION = '1' ]; then
 	clear

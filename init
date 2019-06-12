@@ -42,12 +42,12 @@ OPTION=$(whiptail --title "ubuntu System" \
 if [ $OPTION = '0' ]; then
 	clear
 	echo -e "source init\n${Line}"
+	chmod +x ./apt/apt.sh
+	sudo ./apt/apt.sh 
 	exit 0
 elif [ $OPTION = '1' ]; then
 	clear
 	echo -e "driver init\n${Line}"
-	chmod +x ./apt/apt.sh
-	sudo ./apt/apt.sh 
 	exit 0	
 elif [ $OPTION = '2' ]; then
 	clear
@@ -60,10 +60,14 @@ elif [ $OPTION = "3" ]; then
 elif [ $OPTION = '4' ]; then
 	clear
 	echo -e "server init\n${Line}"
+	chmod +x ./server/server.sh
+	sudo ./server/server.sh 
 	exit 0
 elif [ $OPTION = "5" ]; then
 	clear
 	echo -e "client init\n${Line}"
+	chmod +x ./client/client.sh
+	sudo ./client/client.sh 
 	exit 0
 else
 	whiptail --title "ubuntu System" \

@@ -6,7 +6,7 @@ if [ -f /etc/apt/sources.list ]; then
 fi
 var=`lsb_release -c`
 system_var=`echo ${var:9}`
-echo $system_var
+echo $system_var.list
 
 if [ -f $shellPath/src/bionic.list ]; then
     sudo cp $shellPath/src/bionic.list /etc/apt/sources.list

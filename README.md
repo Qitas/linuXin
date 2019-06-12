@@ -1,10 +1,11 @@
 ﻿# [Linux ConFile](https://github.com/Qitas/LinuxConFile)
 
-不同的分支存放了不同linux发行版本的系统配置文件
+本工程用于初始化Linux发行版本系统，配置相关的资源，高度自动化集成
 
-* [ubuntu init](https://github.com/Qitas/linuxConFile)
-* [centos init](https://github.com/Qitas/linuxConFile/tree/centos)
-* [raspbian init](https://github.com/Qitas/linuxConFile/tree/pi)
+* [linux init](https://github.com/Qitas/LinuxConFile)
+    * [ubuntu](https://github.com/Qitas/linuxConFile)
+    * [centos](https://github.com/Qitas/linuxConFile/tree/centos)
+    * [raspbian](https://github.com/Qitas/linuxConFile/tree/pi)
 
 [![sites](qitas/qitas.png)](http://www.qitas.cn)
 ## 锻造最美之器

@@ -63,14 +63,20 @@ elif [ $OPTION = "3" ]; then
 elif [ $OPTION = '4' ]; then
 	clear
 	echo -e "server init\n${Line}"
-	chmod +x ./server/server.sh
-	sudo ./server/server.sh 
+	if [ -d  $WorkPath/server ]; then
+        cd $WorkPath/server
+		chmod +x ./server.sh
+		sudo ./server.sh 
+    fi
 	exit 0
 elif [ $OPTION = "5" ]; then
 	clear
 	echo -e "client init\n${Line}"
-	chmod +x ./client/client.sh
-	sudo ./client/client.sh 
+	if [ -d  $WorkPath/client ]; then
+        cd $WorkPath/client
+		chmod +x ./client.sh
+		sudo ./client.sh 
+    fi
 	exit 0
 else
 	whiptail --title "ubuntu System" \

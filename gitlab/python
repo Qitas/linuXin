@@ -18,14 +18,14 @@ function get_python()
 		sudo mkdir python
 		sudo tar -xzvf python.tar.gz  -C python --strip-components 1 
     fi
-	echo -e "finish download python src \n${Line}"
+	echo -e "finish getting python\n${Line}"
 }
 
 
 
 function config_python()
 {
-	sudo yum -y install 
+	sudo yum install -y libffi-devel
 	if [ ! -d  $shellPath/download/python ]; then
         cd $shellPath/download/python
 		make configure

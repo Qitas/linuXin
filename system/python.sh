@@ -16,7 +16,7 @@ function get_python()
 	if [ ! -d  $shellPath/download/python ]; then
         cd $shellPath/download
 		sudo mkdir python
-		sudo tar -xzvf python.tar.gz  -C python --strip-components 1 
+		sudo tar -xvf python.tar.xz  -C python --strip-components 1 
     fi
 	echo -e "finish getting python\n${Line}"
 }

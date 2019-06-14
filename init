@@ -27,58 +27,27 @@ done
 echo $PASSWD | sudo ls &> /dev/null 2>&1
 
 
-function repo_config()
-{
-	sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
-	sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
-	sudo yum clean all
-	sudo yum makecache
-	sudo yum -y update
-} 
-
-function connect_config()
-{
-	sudo yum install epel-release git -y
-	sudo yum install gcc kernel-devel -y
-	sudo yum install openssl openssl-devel -y  
-} 
-
-
-function src_replace()
-{
-	:  '
-	for file in `ls *.repo`
-	do
-		mv $file $(echo $file | sed 's/AAA//g')
-	done
-	'
-
-	if [ ! -f /etc/yum.repos.d/google-chrome.repo ]; then
-		sudo cp ./src/google-chrome.repo /etc/yum.repos.d/
-  	fi
-	if [ ! -f /etc/yum.repos.d/gitlab-ce.repo ]; then
-		sudo cp ./src/gitlab-ce.repo /etc/yum.repos.d/
-  	fi	
-} 
-
-
-
 OPTION=$(whiptail --title "QITAS CentOS Init System" \
 	--menu "$MENUSTR" 20 60 12 --cancel-button Finish --ok-button Select \
-	"0"   "system init" \
+	"0"   "source init" \
 	"1"   "driver init" \
-	"2"   "config init" \
-	"3"   "gilab-ce" \
-	"4"   "chrome" \
+	"2"   "system init" \
+	"3"   "config init" \
+	"4"   "server init" \
+	"5"   "client init" \
 	3>&1 1>&2 2>&3)
 	
 
 if [ $OPTION = '0' ]; then
 	clear
-	echo -e "system init\n${Line}"
-	repo_config #> ins.log 
-	src_replace
-	
+	echo -e "source init\n${Line}"
+	if [ -d  $WorkPath/system ]; then
+        cd $WorkPath/system
+		chmod +x ./yum.sh
+		sudo ./yum.sh 
+		chmod +x ./python.sh
+		sudo ./python.sh 
+    	fi	
 	exit 0
 elif [ $OPTION = '1' ]; then
 	clear
@@ -90,7 +59,12 @@ elif [ $OPTION = '1' ]; then
 	exit 0	
 elif [ $OPTION = '2' ]; then
 	clear
-	echo -e "config init\n${Line}"
+	echo -e "system init\n${Line}"
+	if [ -d  $WorkPath/system ]; then
+        cd $WorkPath/system
+		chmod +x ./python.sh
+		sudo ./python.sh 
+    	fi	
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear
@@ -101,12 +75,24 @@ elif [ $OPTION = "3" ]; then
 	exit 0
 elif [ $OPTION = '4' ]; then
 	clear
-	src_replace
-	sudo yum -y install google-chrome-stable --nogpgcheck
+	echo -e "server init\n${Line}"
+	if [ -d  $WorkPath/client ]; then
+        cd $WorkPath/client
+    	fi
+	exit 0
+elif [ $OPTION = "5" ]; then
+	clear
+	echo -e "client init\n${Line}"
+	if [ -d  $WorkPath/client ]; then
+        cd $WorkPath/client
+		chmod +x ./client.sh
+		sudo ./client.sh 
+		sudo yum -y install google-chrome-stable --nogpgcheck
+    	fi
 	exit 0	
 else
 	whiptail --title "QITAS CentOS Init System" \
-		--msgbox "Please select correct option [0-4]" 10 50 0
+		--msgbox "Please select correct option [0-5]" 10 50 0
 	exit 0
 fi
 

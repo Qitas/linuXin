@@ -36,7 +36,7 @@ OPTION=$(whiptail --title "ubuntu System" \
 	"3"   "config init" \
 	"4"   "server init" \
 	"5"   "client init" \
-	"6"   "tools init" \
+	"6"   "kicad install" \
 	3>&1 1>&2 2>&3)
 	
 
@@ -81,11 +81,11 @@ elif [ $OPTION = "5" ]; then
 	exit 0
 elif [ $OPTION = "6" ]; then
 	clear
-	echo -e "tools init\n${Line}"
+	echo -e "kicad install\n${Line}"
 	if [ -d  $WorkPath/tools ]; then
         cd $WorkPath/tools
-		chmod +x ./tools.sh
-		sudo ./tools.sh 
+		chmod +x ./kicad.sh
+		sudo ./kicad.sh 
     	fi
 	exit 0
 else

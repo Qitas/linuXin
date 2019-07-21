@@ -1,14 +1,34 @@
 #!/bin/bash
 shellPath=`pwd`
 
-# kicad pcb tools
-sudo apt-get remove -y kicad kicad-footprints kicad-libraries
-sudo apt-get remove -y kicad-symbols kicad-templates  kicad-packages3d
-sudo apt-get remove -y kicad-doc-* kicad-locale-*
+function get_src()
+{
+    	if [ -f $shellPath/src/kicad.tar.gz ]; then
+		cd $shellPath/src
+		mkdir kicad
+		tar -xzvf kicad.tar.gz  -C kicad --strip-components 1 
+    	fi
+    	if [ ! -d $shellPath/src/kicad ]; then
+        	cd $shellPath/src
+		git clone --depth=1 -b master https://git.launchpad.net/kicad 
+	else
+	    	cd $shellPath/src/kicad
+		git pull
+	fi
+	echo "download kicad src \n${Line}"
+}
 
-sudo add-apt-repository -r ppa:js-reynaud/ppa-kicad
+if [ -d  $shellPath/src ]; then
+	get_src
+	
+else
+	# kicad pcb tools
+	sudo apt-get remove -y kicad kicad-footprints kicad-libraries
+	sudo apt-get remove -y kicad-symbols kicad-templates  kicad-packages3d
+	sudo apt-get remove -y kicad-doc-* kicad-locale-*
 
-sudo add-apt-repository --yes ppa:js-reynaud/kicad-5
-sudo apt update
-#sudo apt install kicad
-sudo apt install -y --install-suggests kicad
+	sudo add-apt-repository --yes ppa:js-reynaud/kicad-5.1
+	sudo apt update
+	#sudo apt install kicad
+	sudo apt install -y --install-suggests kicad
+fi

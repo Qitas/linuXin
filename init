@@ -4,7 +4,7 @@ export WorkPath=`pwd`
 
 ## Root Password
 for ((i = 0; i < 5; i++)); do
-	PASSWD=$(whiptail --title "ubuntu System" \
+	PASSWD=$(whiptail --title "ubuntu init config" \
 		--passwordbox "Enter root password. Don't use root or sudo run it" \
 		10 60 3>&1 1>&2 2>&3)
 	if [ $i = "4" ]; then
@@ -19,7 +19,7 @@ EOF
 	then
 		i=10
 	else
-		whiptail --title "init Ubuntu System" --msgbox "Invalid password, Pls input corrent password" \
+		whiptail --title "ubuntu init config" --msgbox "Invalid password, Pls input corrent password" \
 		10 40 0	--cancel-button Exit --ok-button Retry
 	fi
 done
@@ -28,15 +28,16 @@ echo $PASSWD | sudo ls &> /dev/null 2>&1
 
 
 
-OPTION=$(whiptail --title "ubuntu System" \
+OPTION=$(whiptail --title "ubuntu init config" \
 	--menu "$MENUSTR" 20 60 12 --cancel-button Finish --ok-button Select \
-	"0"   "source init" \
-	"1"   "driver init" \
+	"0"   "apt source init" \
+	"1"   "sys driver init" \
 	"2"   "system init" \
-	"3"   "config init" \
-	"4"   "server init" \
-	"5"   "client init" \
-	"6"   "kicad install" \
+	"3"   "git config" \
+	"4"   "gitlab server" \
+	"5"   "client tools" \
+	"6"   "kicad" \
+	"7"   "golang" \
 	3>&1 1>&2 2>&3)
 	
 
@@ -59,7 +60,7 @@ elif [ $OPTION = '2' ]; then
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear
-	echo -e "config init\n${Line}"
+	echo -e "git config\n${Line}"
 	exit 0
 elif [ $OPTION = '4' ]; then
 	clear
@@ -88,8 +89,12 @@ elif [ $OPTION = "6" ]; then
 		sudo ./kicad.sh 
     	fi
 	exit 0
+elif [ $OPTION = "7" ]; then
+	clear
+	echo -e "golang env\n${Line}"
+	exit 0
 else
-	whiptail --title "ubuntu System" \
+	whiptail --title "ubuntu init config" \
 		--msgbox "Please select correct option" 10 50 0
 	exit 0
 fi

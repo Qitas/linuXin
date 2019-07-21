@@ -18,10 +18,16 @@ function get_src()
 	echo "download kicad src \n${Line}"
 }
 
+
 if [ -d  $shellPath/src ]; then
-	get_src
-	
-else
+	cd $shellPath/src
+	count=`ls $*|wc -w`
+	if [ "$count" > "0" ]; then
+		get_src
+	fi
+fi
+
+if [ ! -d  $shellPath/src/kicad ]; then
 	# kicad pcb tools
 	sudo apt-get remove -y kicad kicad-footprints kicad-libraries
 	sudo apt-get remove -y kicad-symbols kicad-templates  kicad-packages3d
@@ -30,5 +36,5 @@ else
 	sudo add-apt-repository --yes ppa:js-reynaud/kicad-5.1
 	sudo apt update
 	#sudo apt install kicad
-	sudo apt install -y --install-suggests kicad
+	sudo apt install -y --install-suggests kicad	
 fi

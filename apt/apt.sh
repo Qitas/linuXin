@@ -1,5 +1,8 @@
 #!/bin/bash
-export shellPath=`pwd`
+
+shellPath=`pwd`
+
+# for ubuntu
 
 if [ -f /etc/apt/sources.list ]; then
     sudo mv /etc/apt/sources.list  /etc/apt/sources.list.bak
@@ -13,5 +16,6 @@ if [ -f $shellPath/src/$system_var.list ]; then
 fi
 
 sudo apt update
-sudo apt upgrade -y
 sudo apt install -y git
+sudo apt upgrade -y
+

@@ -1,7 +1,8 @@
 #!/bin/bash
+
 shellPath=`pwd`
 
-function get_src()
+function clone_repo()
 {
     	if [ -f $shellPath/src/kicad.tar.gz ]; then
 		cd $shellPath/src
@@ -15,26 +16,27 @@ function get_src()
 	    	cd $shellPath/src/kicad
 		git pull
 	fi
-	echo "download kicad src \n${Line}"
+	echo "git clone kicad repo\n${Line}"
 }
 
-
+# 编译安装
 if [ -d  $shellPath/src ]; then
 	cd $shellPath/src
 	count=`ls $*|wc -w`
 	if [ "$count" > "0" ]; then
-		get_src
+		clone_repo
 	fi
 fi
 
 if [ ! -d  $shellPath/src/kicad ]; then
-	# kicad pcb tools
+	# remove old version
 	sudo apt-get remove -y kicad kicad-footprints kicad-libraries
 	sudo apt-get remove -y kicad-symbols kicad-templates  kicad-packages3d
 	sudo apt-get remove -y kicad-doc-* kicad-locale-*
-
+	# add repo
 	sudo add-apt-repository --yes ppa:js-reynaud/kicad-5.1
 	sudo apt update
+
 	#sudo apt install kicad
 	sudo apt install -y --install-suggests kicad	
 fi

@@ -33,6 +33,7 @@ if [ ! -d  $shellPath/src/kicad ]; then
 	sudo apt-get remove -y kicad kicad-footprints kicad-libraries
 	sudo apt-get remove -y kicad-symbols kicad-templates  kicad-packages3d
 	sudo apt-get remove -y kicad-doc-* kicad-locale-*
+	sudo apt autoremove
 	# add repo
 	sudo add-apt-repository --yes ppa:js-reynaud/kicad-5.1
 	sudo apt update

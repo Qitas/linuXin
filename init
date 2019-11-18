@@ -4,8 +4,8 @@ export WorkPath=`pwd`
 
 ## Root Password
 for ((i = 0; i < 5; i++)); do
-	PASSWD=$(whiptail --title "QITAS CentOS Init System" \
-		--passwordbox "Enter root password. [Don't use root or sudo] " \
+	PASSWD=$(whiptail --title "LinuXin centos config" \
+		--passwordbox "Enter root password. Don't use root or sudo!" \
 		10 60 3>&1 1>&2 2>&3)
 	if [ $i = "4" ]; then
 		whiptail --title "Note QITAS" --msgbox "Invalid root Password ! " 10 40 0	
@@ -19,7 +19,7 @@ EOF
 	then
 		i=10
 	else
-		whiptail --title "QITAS CentOS Init System" --msgbox "Invalid root Password, try again ! " \
+		whiptail --title "LinuXin centos config" --msgbox "Invalid root Password, try again ! " \
 		10 40 0	--cancel-button Exit --ok-button Retry
 	fi
 done
@@ -27,39 +27,38 @@ done
 echo $PASSWD | sudo ls &> /dev/null 2>&1
 
 
-OPTION=$(whiptail --title "QITAS CentOS Init System" \
+OPTION=$(whiptail --title "LinuXin centos config" \
 	--menu "$MENUSTR" 20 60 12 --cancel-button Finish --ok-button Select \
-	"0"   "source init" \
-	"1"   "driver init" \
-	"2"   "system init" \
-	"3"   "config init" \
+	"0"   "yum sources update" \
+	"1"   "python3 install" \
+	"2"   "system config" \
+	"3"   "docker install" \
 	"4"   "server init" \
 	"5"   "client init" \
+	"6"   "mark system" \
 	3>&1 1>&2 2>&3)
 	
 
 if [ $OPTION = '0' ]; then
 	clear
-	echo -e "source init\n${Line}"
+	echo -e "yum sources update\n${Line}"
 	if [ -d  $WorkPath/system ]; then
         cd $WorkPath/system
 		chmod +x ./yum.sh
 		sudo ./yum.sh 
-		chmod +x ./python.sh
-		sudo ./python.sh 
-    	fi	
+	fi	
 	exit 0
 elif [ $OPTION = '1' ]; then
 	clear
-	echo -e "driver init\n${Line}"
-	cd $WorkPath/mark
-	sudo chmod +x mark
-	sudo ./mark  #> mark.log
-	echo -e "finish centos mark driver init\n${Line}"
+	if [ -f $WorkPath/system/python.sh ]; then
+        cd $WorkPath/system
+		chmod +x system/python.sh
+		sudo system/python.sh 
+	fi	
 	exit 0	
 elif [ $OPTION = '2' ]; then
 	clear
-	echo -e "system init\n${Line}"
+	echo -e "system config\n${Line}"
 	if [ -d  $WorkPath/system ]; then
         cd $WorkPath/system
 		chmod +x ./python.sh
@@ -68,6 +67,7 @@ elif [ $OPTION = '2' ]; then
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear
+	echo -e "docker install\n${Line}"
 	cd $WorkPath/gitlab
 	sudo chmod +x gitlab
 	sudo ./gitlab  #> gitlab.log
@@ -90,8 +90,16 @@ elif [ $OPTION = "5" ]; then
 		sudo yum -y install google-chrome-stable --nogpgcheck
     	fi
 	exit 0	
+elif [ $OPTION = '6' ]; then
+	clear
+	echo -e "driver init\n${Line}"
+	cd $WorkPath/mark
+	sudo chmod +x mark
+	sudo ./mark  #> mark.log
+	echo -e "finish centos mark driver init\n${Line}"
+	exit 0	
 else
-	whiptail --title "QITAS CentOS Init System" \
+	whiptail --title "LinuXin centos config" \
 		--msgbox "Please select correct option [0-5]" 10 50 0
 	exit 0
 fi

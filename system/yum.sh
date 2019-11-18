@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export shellPath=`pwd`
+shellPath=`pwd`
 export WorkPath=$shellPath/..
 
 function repo_config()
@@ -28,7 +28,6 @@ function src_replace()
 		mv $file $(echo $file | sed 's/AAA//g')
 	done
 	'
-
 	if [ ! -f /etc/yum.repos.d/google-chrome.repo ]; then
 		sudo cp ./src/google-chrome.repo /etc/yum.repos.d/
   	fi

@@ -16,7 +16,8 @@
 
 ```
 git clone -b centos https://github.com/Qitas/linuXin.git
-
+cd linuXin
+./init
 ```
 
 

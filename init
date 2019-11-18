@@ -51,7 +51,7 @@ if [ $OPTION = '0' ]; then
 elif [ $OPTION = '1' ]; then
 	clear
 	if [ -f $WorkPath/system/python.sh ]; then
-        cd $WorkPath/system
+        # cd $WorkPath/system
 		chmod +x system/python.sh
 		sudo system/python.sh 
 	fi	
@@ -59,11 +59,16 @@ elif [ $OPTION = '1' ]; then
 elif [ $OPTION = '2' ]; then
 	clear
 	echo -e "system config\n${Line}"
-	if [ -d  $WorkPath/system ]; then
-        cd $WorkPath/system
-		chmod +x ./python.sh
-		sudo ./python.sh 
-    	fi	
+	# if [ -d  $WorkPath/system ]; then
+    #     cd $WorkPath/system
+	# 	chmod +x ./python.sh
+	# 	sudo ./python.sh 
+	# fi
+	if [ -d  $WorkPath/system/config.sh ]; then
+        # cd $WorkPath/system
+		chmod +x system/config.sh
+		sudo system/config.sh
+	fi	
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear

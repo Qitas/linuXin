@@ -13,7 +13,7 @@
 #### 相关执行
 
 ```
-git clone -b centos https://github.com/Qitas/linuXin.git
+git clone https://github.com/Qitas/linuXin.git
 cd linuXin
 ./init
 ```

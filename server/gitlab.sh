@@ -5,8 +5,6 @@ function gitlab_init()
 	curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
 }
 
-#!/bin/bash
-
 unknown_os ()
 {
   echo "Unfortunately, your operating system distribution and version are not supported by this script."

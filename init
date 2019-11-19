@@ -34,7 +34,7 @@ OPTION=$(whiptail --title "LinuXin centos config" \
 	"2"   "system config" \
 	"3"   "docker install" \
 	"4"   "gitlab install" \
-	"5"   "client init" \
+	"5"   "web server" \
 	"6"   "mark system" \
 	3>&1 1>&2 2>&3)
 	
@@ -88,12 +88,11 @@ elif [ $OPTION = '4' ]; then
 	exit 0
 elif [ $OPTION = "5" ]; then
 	clear
-	echo -e "client init\n${Line}"
-	if [ -d  $WorkPath/client ]; then
-        cd $WorkPath/client
-		chmod +x ./client.sh
-		sudo ./client.sh 
-		sudo yum -y install google-chrome-stable --nogpgcheck
+	echo -e "\nweb server\n${Line}"
+	if [ -e  $WorkPath/server/nginx.sh ]; then
+		chmod +x server/nginx.sh 
+		sudo server/nginx.sh   #> nginx.log
+		echo -e "finish centos nginx init\n${Line}"
     	fi
 	exit 0	
 elif [ $OPTION = '6' ]; then

@@ -60,24 +60,22 @@ elif [ $OPTION = '1' ]; then
 elif [ $OPTION = '2' ]; then
 	clear
 	echo -e "system config\n${Line}"
-	# if [ -d  $WorkPath/system ]; then
-    #     cd $WorkPath/system
-	# 	chmod +x ./python.sh
-	# 	sudo ./python.sh 
-	# fi
 	if [ -d  $WorkPath/system/config.sh ]; then
         # cd $WorkPath/system
 		chmod +x system/config.sh
 		sudo system/config.sh
+		echo -e "finish centos system config\n${Line}"
 	fi	
 	exit 0
 elif [ $OPTION = "3" ]; then
 	clear
 	echo -e "docker install\n${Line}"
-	cd $WorkPath/gitlab
-	sudo chmod +x gitlab
-	sudo ./gitlab  #> gitlab.log
-	echo -e "finish centos gitlab env init\n${Line}"
+	if [ -d  $WorkPath/system/docker.sh ]; then
+        # cd $WorkPath/system
+		chmod +x system/docker.sh
+		sudo system/docker.sh  #> docker.log
+		echo -e "finish centos docker init\n${Line}"
+	fi	
 	exit 0
 elif [ $OPTION = '4' ]; then
 	clear

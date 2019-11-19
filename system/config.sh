@@ -11,5 +11,4 @@ git config --global alias.ci commit -am
 git config --global alias.cr clone --recursive
 git config --global alias.su submodule update --init
 
-
 exit 0

@@ -1,17 +1,5 @@
 #!/bin/bash
 
-shellPath=`pwd`
-export WorkPath=$shellPath/..
-
-function repo_config()
-{
-	sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
-	sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
-	sudo yum clean all
-	sudo yum makecache
-	sudo yum -y update
-} 
-
 function docker_install()
 {
 	sudo yum remove docker \
@@ -32,8 +20,9 @@ function docker_install()
 function docker_config()
 {
 	systemctl enable docker
+	echo "DOCKER_OPTS=\"--registry-mirror=https://docker.mirrors.ustc.edu.cn\"" >> /etc/default/docker
 	systemctl start docker
-} 
+}
 
 docker_install
 docker_config

@@ -33,7 +33,7 @@ OPTION=$(whiptail --title "LinuXin centos config" \
 	"1"   "python3 install" \
 	"2"   "system config" \
 	"3"   "docker install" \
-	"4"   "server init" \
+	"4"   "gitlab install" \
 	"5"   "client init" \
 	"6"   "mark system" \
 	3>&1 1>&2 2>&3)
@@ -60,7 +60,7 @@ elif [ $OPTION = '1' ]; then
 elif [ $OPTION = '2' ]; then
 	clear
 	echo -e "system config\n${Line}"
-	if [ -d  $WorkPath/system/config.sh ]; then
+	if [ -e  $WorkPath/system/config.sh ]; then
         # cd $WorkPath/system
 		chmod +x system/config.sh
 		sudo system/config.sh
@@ -70,7 +70,7 @@ elif [ $OPTION = '2' ]; then
 elif [ $OPTION = "3" ]; then
 	clear
 	echo -e "docker install\n${Line}"
-	if [ -d  $WorkPath/system/docker.sh ]; then
+	if [ -e  $WorkPath/system/docker.sh ]; then
         # cd $WorkPath/system
 		chmod +x system/docker.sh
 		sudo system/docker.sh  #> docker.log
@@ -79,10 +79,12 @@ elif [ $OPTION = "3" ]; then
 	exit 0
 elif [ $OPTION = '4' ]; then
 	clear
-	echo -e "server init\n${Line}"
-	if [ -d  $WorkPath/client ]; then
-        cd $WorkPath/client
-    	fi
+	echo -e "\ngitlab install\n${Line}"
+	if [ -e  $WorkPath/server/gitlab.sh  ]; then
+		chmod +x server/gitlab.sh 
+		sudo server/gitlab.sh   #> docker.log
+		echo -e "finish centos gitlab init\n${Line}"
+	fi
 	exit 0
 elif [ $OPTION = "5" ]; then
 	clear

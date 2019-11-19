@@ -20,25 +20,25 @@ function conn_config()
 } 
 
 
-function src_replace()
-{
-	:  '
-	for file in `ls *.repo`
-	do
-		mv $file $(echo $file | sed 's/AAA//g')
-	done
-	'
-	if [ ! -f /etc/yum.repos.d/google-chrome.repo ]; then
-		sudo cp ./src/google-chrome.repo /etc/yum.repos.d/
-  	fi
-	if [ ! -f /etc/yum.repos.d/gitlab-ce.repo ]; then
-		sudo cp ./src/gitlab-ce.repo /etc/yum.repos.d/
-  	fi	
-} 
+# function src_replace()
+# {
+# 	:  '
+# 	for file in `ls *.repo`
+# 	do
+# 		mv $file $(echo $file | sed 's/AAA//g')
+# 	done
+# 	'
+# 	# if [ ! -f /etc/yum.repos.d/google-chrome.repo ]; then
+# 	# 	sudo cp ./src/google-chrome.repo /etc/yum.repos.d/
+#   	# fi
+# 	# if [ ! -f /etc/yum.repos.d/gitlab-ce.repo ]; then
+# 	# 	sudo cp ./src/gitlab-ce.repo /etc/yum.repos.d/
+#   	# fi	
+# } 
 
 repo_config
 conn_config
-src_replace
+# src_replace
 
 
 exit 0

@@ -50,6 +50,7 @@ if [ $OPTION = '0' ]; then
 	exit 0
 elif [ $OPTION = '1' ]; then
 	clear
+	echo -e "\npython3 install\n${Line}"
 	if [ -f $WorkPath/system/python.sh ]; then
         # cd $WorkPath/system
 		chmod +x system/python.sh

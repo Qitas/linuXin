@@ -1,0 +1,113 @@
+#!/bin/bash
+
+export WorkPath=`pwd`
+
+## Root Password
+for ((i = 0; i < 5; i++)); do
+	PASSWD=$(whiptail --title "LinuXin raspbian config" \
+		--passwordbox "Enter root password. Don't use root or sudo!" \
+		10 60 3>&1 1>&2 2>&3)
+	if [ $i = "4" ]; then
+		whiptail --title "Note QITAS" --msgbox "Invalid root Password ! " 10 40 0	
+		exit 0
+	fi
+
+	sudo -k
+	if sudo -lS &> /dev/null << EOF
+$PASSWD
+EOF
+	then
+		i=10
+	else
+		whiptail --title "LinuXin raspbian config" --msgbox "Invalid root Password, try again ! " \
+		10 40 0	--cancel-button Exit --ok-button Retry
+	fi
+done
+
+echo $PASSWD | sudo ls &> /dev/null 2>&1
+
+
+OPTION=$(whiptail --title "LinuXin raspbian config" \
+	--menu "$MENUSTR" 20 60 12 --cancel-button Finish --ok-button Select \
+	"0"   "apt sources update" \
+	"1"   "wifi&net config" \
+	"2"   "system config" \
+	"3"   "docker install" \
+	"4"   "server init" \
+	"5"   "client init" \
+	"6"   "mark system" \
+	3>&1 1>&2 2>&3)
+	
+
+if [ $OPTION = '0' ]; then
+	clear
+	echo -e "apt sources update\n${Line}"
+	if [ -d  $WorkPath/config ]; then
+        cd $WorkPath/config
+		chmod +x ./apt.sh
+		sudo ./apt.sh 
+	fi	
+	exit 0
+elif [ $OPTION = '1' ]; then
+	clear
+	echo -e "wifi&net config\n${Line}"
+	if [ -f $WorkPath/system/python.sh ]; then
+
+	fi	
+	exit 0	
+elif [ $OPTION = '2' ]; then
+	clear
+	echo -e "system config\n${Line}"
+	# if [ -d  $WorkPath/system ]; then
+    #     cd $WorkPath/system
+	# 	chmod +x ./python.sh
+	# 	sudo ./python.sh 
+	# fi
+	if [ -d  $WorkPath/system/config.sh ]; then
+        # cd $WorkPath/system
+		chmod +x system/config.sh
+		sudo system/config.sh
+	fi	
+	exit 0
+elif [ $OPTION = "3" ]; then
+	clear
+	echo -e "docker install\n${Line}"
+	cd $WorkPath/gitlab
+	sudo chmod +x gitlab
+	sudo ./gitlab  #> gitlab.log
+	echo -e "finish raspbian gitlab env init\n${Line}"
+	exit 0
+elif [ $OPTION = '4' ]; then
+	clear
+	echo -e "server init\n${Line}"
+	if [ -d  $WorkPath/client ]; then
+        cd $WorkPath/client
+    	fi
+	exit 0
+elif [ $OPTION = "5" ]; then
+	clear
+	echo -e "client init\n${Line}"
+	if [ -d  $WorkPath/client ]; then
+        cd $WorkPath/client
+		chmod +x ./client.sh
+		sudo ./client.sh 
+		sudo yum -y install google-chrome-stable --nogpgcheck
+    	fi
+	exit 0	
+elif [ $OPTION = '6' ]; then
+	clear
+	echo -e "driver init\n${Line}"
+	cd $WorkPath/mark
+	sudo chmod +x mark
+	sudo ./mark  #> mark.log
+	echo -e "finish raspbian mark driver init\n${Line}"
+	exit 0	
+else
+	whiptail --title "LinuXin raspbian config" \
+		--msgbox "Please select correct option [0-5]" 10 50 0
+	exit 0
+fi
+
+
+
+exit 0
